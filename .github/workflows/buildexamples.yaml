@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
       matrix:
         sketch: ['luddite']
-        fqbn_long: ['adafruit:nrf52:feather52840',
+        fqbn_long: ['adafruit:nrf52:pca10056',
                     'rp2040:rp2040:adafruit_kb2040',]
 
     runs-on: ubuntu-latest
