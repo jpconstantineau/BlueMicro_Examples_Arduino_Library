@@ -50,6 +50,7 @@ jobs:
           arduino-cli core install community_nrf52:nrf52 --additional-urls $BSP_URL
           arduino-cli core list
           arduino-cli board listall
+          arduino-cli lib install "bluemicro_hid bluemicro_nrf52 bluemicro_engine"
 
       - name: Install BSP and Libraries - SAMD
         if:  ${{ contains( matrix.fqbn_long , 'samd' ) }}
@@ -63,7 +64,7 @@ jobs:
           arduino-cli core list
           arduino-cli board listall
           # Install library dependencies
-          arduino-cli lib install "Adafruit TinyUSB Library"
+          arduino-cli lib install "bluemicro_hid bluemicro_engine"
           arduino-cli lib list
 
       - name: Install BSP and Libraries - RP2040
@@ -79,7 +80,7 @@ jobs:
           arduino-cli core list
           arduino-cli board listall
           # Install library dependencies
-          arduino-cli lib install  "Adafruit TinyUSB Library"
+          arduino-cli lib install "bluemicro_hid bluemicro_rp2040 bluemicro_engine"
           arduino-cli lib list
 
       - name: Compile Sketch - nRF52
