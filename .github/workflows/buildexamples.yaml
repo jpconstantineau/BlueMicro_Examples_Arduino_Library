@@ -12,8 +12,8 @@ jobs:
                     'rp2040:rp2040:adafruit_kb2040',
                     'rp2040:rp2040:adafruit_itsybitsy',
                     'rp2040:rp2040:sparkfun_promicrorp2040',
-                    'adafruit:samd:itsybitsy_m0',
-                    'adafruit:samd:itsybitsy_m4',]
+                    'adafruit:samd:adafruit_itsybitsy_m0',
+                    'adafruit:samd:adafruit_itsybitsy_m4',]
 
     runs-on: ubuntu-latest
     outputs:
