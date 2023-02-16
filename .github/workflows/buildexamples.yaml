@@ -11,7 +11,9 @@ jobs:
         fqbn_long: ['adafruit:nrf52:pca10056',
                     'rp2040:rp2040:adafruit_kb2040',
                     'rp2040:rp2040:adafruit_itsybitsy',
-                    'rp2040:rp2040:sparkfun_promicrorp2040',]
+                    'rp2040:rp2040:sparkfun_promicrorp2040',
+                    'adafruit:samd:itsybitsy_m0',
+                    'adafruit:samd:itsybitsy_m4',]
 
     runs-on: ubuntu-latest
     outputs:
@@ -66,7 +68,7 @@ jobs:
           arduino-cli core list
           arduino-cli board listall
           # Install library dependencies
-          arduino-cli lib install bluemicro_hid bluemicro_engine
+          arduino-cli lib install bluemicro_hid bluemicro_samd bluemicro_engine
           arduino-cli lib list
 
       - name: Install BSP and Libraries - RP2040
