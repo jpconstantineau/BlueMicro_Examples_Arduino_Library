@@ -24,8 +24,8 @@
 // BlueMicroV2.1 (Adafruit Feather nRF52832) // not yet implemented
 // Adafruit KB2040 (with Adafruit TinyUSB USB Stack)
 // Adafruit ItsyBitsy RP2040 (with Adafruit TinyUSB USB Stack)
-// Adafruit ItsyBitsy M0 Express // not yet implemented
-// Adafruit ItsyBitsy M4 Express // not yet implemented
+// Adafruit ItsyBitsy M0 Express 
+// Adafruit ItsyBitsy M4 Express 
 // Sparkfun Pro Micro RP2040 (with Adafruit TinyUSB USB Stack) // not tested yet
 
 #include <bluemicro_exmpl.h>
@@ -37,10 +37,10 @@
 
 #ifdef ARDUINO_ARCH_SAMD // includes both __SAMD21G18A__  and __SAMD51__ (__SAMD21E18A__ not tested)
   #include <bluemicro_samd.h>
-  #ifdef ARDUINO_ADAFRUIT_ITSYBITSY_M0_EXPRESS
+  #ifdef ARDUINO_ITSYBITSY_M0
     #define pin_to_gpio aibm0_pin_to_gpio
   #endif
-  #ifdef ARDUINO_ADAFRUIT_ITSYBITSY_M4_EXPRESS
+  #ifdef ARDUINO_ITSYBITSY_M4
     #define pin_to_gpio aibm4_pin_to_gpio
   #endif
 #endif
