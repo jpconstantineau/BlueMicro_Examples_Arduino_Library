@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-
 // Designed for the Luddite 2 60% keyboard from 40percent.club
 // https://www.40percent.club/2018/08/luddite-2.html
 // This keyboard was designed for the Arduino Pro Micro.
@@ -15,13 +14,19 @@
 
 // Adapters have been created to adapt the ItsyBitsy to the Pro Micro footprint
 // https://github.com/KMKfw/kmk_firmware/blob/master/hardware/README.md
+// This enables the following controllers:
+// Adafruit ItsyBitsy RP2040
+// Adafruit ItsyBitsy M0 Express
+// Adafruit ItsyBitsy M4 Express
 
 // The code below has been tested with these controllers:
 // BlueMicro840 (Nordic nRF52840 DK)
 // BlueMicroV2.1 (Adafruit Feather nRF52832) // not yet implemented
 // Adafruit KB2040 (with Adafruit TinyUSB USB Stack)
+// Adafruit ItsyBitsy RP2040 (with Adafruit TinyUSB USB Stack)
 // Adafruit ItsyBitsy M0 Express // not yet implemented
 // Adafruit ItsyBitsy M4 Express // not yet implemented
+// Sparkfun Pro Micro RP2040 (with Adafruit TinyUSB USB Stack) // not tested yet
 
 #include <bluemicro_exmpl.h>
 
@@ -29,9 +34,28 @@
   #include <bluemicro_nrf52.h>
   #define pin_to_gpio bluemicro840_pin_to_gpio
 #endif
-#ifdef ARDUINO_ARCH_RP2040 // for RP2040 Boards
+
+#ifdef ARDUINO_ARCH_SAMD // includes both __SAMD21G18A__  and __SAMD51__ (__SAMD21E18A__ not tested)
+  #include <bluemicro_samd.h>
+  #ifdef ARDUINO_ADAFRUIT_ITSYBITSY_M0_EXPRESS
+    #define pin_to_gpio aibm0_pin_to_gpio
+  #endif
+  #ifdef ARDUINO_ADAFRUIT_ITSYBITSY_M4_EXPRESS
+    #define pin_to_gpio aibm4_pin_to_gpio
+  #endif
+#endif
+
+#ifdef ARDUINO_ARCH_RP2040 // for RP2040 Boards Use the Arduino Core from https://github.com/earlephilhower/arduino-pico
   #include <bluemicro_rp2040.h>
-  #define pin_to_gpio kb2040_pin_to_gpio
+  #ifdef ARDUINO_ADAFRUIT_KB2040_RP2040
+    #define pin_to_gpio kb2040_pin_to_gpio
+  #endif
+  #ifdef ARDUINO_ADAFRUIT_ITSYBITSY_RP2040
+    #define pin_to_gpio aib2040_pin_to_gpio
+  #endif
+  #ifdef ARDUINO_SPARKFUN_PROMICRO_RP2040
+     #define pin_to_gpio promicro_pin_to_gpio
+  #endif 
 #endif
 
 /**************************************************************************************************************************/
