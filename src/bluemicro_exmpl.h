@@ -6,6 +6,34 @@
 #define BLUEMICRO_EXAMPLES_H
 
 
+#ifdef ARDUINO_ARCH_NRF52 // includes both NRF52832_XXAA and NRF52840_XXAA 
+  #include <bluemicro_nrf52.h>
+  #define pin_to_gpio bluemicro840_pin_to_gpio
+#endif
+
+#ifdef ARDUINO_ARCH_SAMD // includes both __SAMD21G18A__  and __SAMD51__ (__SAMD21E18A__ not tested)
+  #include <bluemicro_samd.h>
+  #ifdef ARDUINO_ITSYBITSY_M0
+    #define pin_to_gpio aibm0_pin_to_gpio
+  #endif
+  #ifdef ARDUINO_ITSYBITSY_M4
+    #define pin_to_gpio aibm4_pin_to_gpio
+  #endif
+#endif
+
+#ifdef ARDUINO_ARCH_RP2040 // for RP2040 Boards Use the Arduino Core from https://github.com/earlephilhower/arduino-pico
+  #include <bluemicro_rp2040.h>
+  #ifdef ARDUINO_ADAFRUIT_KB2040_RP2040
+    #define pin_to_gpio kb2040_pin_to_gpio
+  #endif
+  #ifdef ARDUINO_ADAFRUIT_ITSYBITSY_RP2040
+    #define pin_to_gpio aib2040_pin_to_gpio
+  #endif
+  #ifdef ARDUINO_SPARKFUN_PROMICRO_RP2040
+     #define pin_to_gpio promicro_pin_to_gpio
+  #endif 
+#endif
+
 const uint32_t bluemicro840_pin_to_gpio[] = 
 {
  0, // 0: No pin 0
@@ -339,4 +367,6 @@ const uint32_t aibm4_pin_to_gpio[] =
   itsybitsy_m4_pin_to_gpio[promicro_pin_to_itsybitsy[24]],
   itsybitsy_m4_pin_to_gpio[promicro_pin_to_itsybitsy[25]]
 };
+
+
 #endif

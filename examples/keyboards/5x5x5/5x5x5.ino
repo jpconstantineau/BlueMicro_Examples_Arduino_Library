@@ -2,24 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Designed for the Luddite 2 60% keyboard from 40percent.club
-// https://www.40percent.club/2018/08/luddite-2.html
-// This keyboard was designed for the Arduino Pro Micro.
+// Designed for the 5x5 modular keyboard from 40percent.club
+// https://www.40percent.club/2018/04/5x5.html
+// This keyboard was designed for the Arduino Micro.
 
 // The code below has been tested with these controllers:
 // BlueMacro840 (Nordic nRF52840 DK)
 
 #include <bluemicro_exmpl.h>
 
-#ifdef ARDUINO_ARCH_NRF52 // includes both NRF52832_XXAA and NRF52840_XXAA 
-  #include <bluemicro_nrf52.h>
-#endif
-
 /**************************************************************************************************************************/
-// LUDDITE 60% Hardware Definition
+// 5x5x5 75% Hardware Definition
 // You shouldn't need to edit this, unless you have different keyboard hardware
 /**************************************************************************************************************************/
-// Micro Pins
+// Micro Pins - GPIOs are for the BlueMacro - See here: https://nrf52.jpconstantineau.com/docs/bluemacro840_v1
 /* Column  pin configuration
  * col:  0  1  2  3    4  5  6    7  8  9  10 11 12 13 14
  * pin:  D7 E6 B4 B5   B6 B7 D6   F7 F6 F5 F4 F1 F0 B3 B1
@@ -34,7 +30,7 @@
 #define MATRIX_ROW_PINS {43,30,2,29,26} 
 #define MATRIX_COL_PINS {6,5,8,41,4,12,38,24,22,13,15,17,20,9,10} 
 #define DIODE_DIRECTION COL2ROW
-
+#define LEDPIN 36
 /**************************************************************************************************************************/
 //  75% Keymap Definition
 /**************************************************************************************************************************/
