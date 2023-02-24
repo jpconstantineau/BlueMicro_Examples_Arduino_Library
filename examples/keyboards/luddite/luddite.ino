@@ -54,7 +54,7 @@
     K34, K35, K36, K37, K40, K41, K42, K43, K44, K45, K46, K47, K50, \
     K51, K52, K53, K54, K55, K56, K57, K60, K61, K62, K63, K64, \
     K65, K66, K67,                K70,                K71, K72, K73, K74\
-) { \
+) ( \
      K00, K01, K02, K03, K04, K05, K06, K07 , \
      K10, K11, K12, K13, K14, K15, K16, K17 , \
      K20, K21, K22, K23, K24, K25, K26, K27 , \
@@ -63,18 +63,25 @@
      K50, K51, K52, K53, K54, K55, K56, K57 , \
      K60, K61, K62, K63, K64, K65, K66, K67 , \
      K70, K71, K72, K73, K74, KC_NO,KC_NO,KC_NO  \
-}
+)
 
 /**************************************************************************************************************************/
 //  60% Keymap Definition
 /**************************************************************************************************************************/
 
 uint16_t keymap[] = \
-    KEYMAP(    KC_ESC, KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINS,KC_EQL, KC_BSPC, \
+    {KEYMAP(\    
+        KC_ESC, KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINS,KC_EQL, KC_BSPC, \
         KC_TAB,KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_LBRC,KC_RBRC,KC_BSLS, \
         LAYER_2,KC_A,   KC_S,   KC_D,   KC_F,   KC_G,   KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN,KC_QUOT,KC_ENT,  \
         KC_LSFT,KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,KC_RSFT, \
-        KC_LCTL,KC_LGUI,KC_LALT,          KC_SPC,                     LAYER_1, KC_RALT, KC_APP,KC_RCTL);
+        KC_LCTL,KC_LGUI,KC_LALT,          KC_SPC,                     LAYER_1, KC_RALT, KC_APP,KC_RCTL),
+     KEYMAP(\ 
+        KC_ESC, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,KC_F12, KC_BSPC, \
+        KC_TAB,KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_LBRC,KC_RBRC,KC_BSLS, \
+        LAYER_2,KC_A,   KC_S,   KC_D,   KC_F,   KC_G,   KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN,KC_QUOT,KC_ENT,  \
+        KC_LSFT,KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,KC_RSFT, \
+        KC_LCTL,KC_LGUI,KC_LALT,          KC_SPC,                     LAYER_1, KC_RALT, KC_APP,KC_RCTL)};
 
 
 /**************************************************************************************************************************/
@@ -93,20 +100,8 @@ trigger_keycodes_t activeKeycodes;
 byte rows[] MATRIX_ROW_PINS;        // Contains the GPIO Numbers 
 byte columns[] MATRIX_COL_PINS;     // Contains the GPIO Numbers 
 
-/**************************************************************************************************************************/
-trigger_keycodes_t processKeys(trigger_keys_t activeKeys, trigger_keycodes_t activeKeycodes)
-{
-  //Serial.print("P");
-    for (auto pressedkey : activeKeys) 
-    {
-         // Serial.print(pressedkey);
-        //  Serial.print(" ");
-         uint16_t keycode = keymap[pressedkey]; 
-         activeKeycodes.push_back(keycode);
-    }
-  //  Serial.println("");
-  return activeKeycodes;
-}
+const uint16_t  matrixsize = (sizeof(rows) / sizeof(byte))*(sizeof(columns) / sizeof(byte));
+const uint16_t  keymapsize = (sizeof(keymap) / sizeof(uint16_t));
 
 
 /**************************************************************************************************************************/
@@ -138,7 +133,7 @@ void setup() {
   activeKeys.reserve(10);
   activeKeycodes.reserve(10);
   
-  #ifdef LEDPIN
+  #ifdef LEDPIN                                                                              
     pinMode(LEDPIN, OUTPUT);
   #endif  
 }
@@ -151,8 +146,18 @@ void loop() {
   #ifdef LEDPIN
     digitalWrite(LEDPIN, (activeKeys.empty()?LOW:HIGH));
   #endif
+  yield();  // try this here for testing...
+  uint8_t  layer = 0;
+  layer = getLayer(activeKeys, AddLayers, getKeycode);
+  //layer = getLayer(activeKeys, AddLayers);
+  //layer = getLayer(activeKeys, getKeycode);
+  //layer = getLayer(activeKeys);
   
-  activeKeycodes = processKeys(activeKeys,activeKeycodes);
+  activeKeycodes = processKeys(activeKeys,activeKeycodes,getKeycode,layer);
+  //activeKeycodes = processKeys(activeKeys,activeKeycodes,getKeycode);
+  //activeKeycodes = processKeys(activeKeys,activeKeycodes,layer);
+  //activeKeycodes = processKeys(activeKeys,activeKeycodes);
+  
   activeKeycodes = sendKeys(activeKeycodes); 
   bluemicro_hid.processQueues(CONNECTION_MODE_AUTO);
   pause(millis(),10,activeKeys.empty(),60000);
