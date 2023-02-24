@@ -4,9 +4,9 @@ on: [push]
 jobs:
   linting:
     strategy:
-    fail-fast: false
-    matrix:
-      sketch: ['luddite', '5x5x5']
+      fail-fast: false
+      matrix:
+        sketch: ['luddite', '5x5x5']
 
     name: cppcheck keyboard examples
     runs-on: ubuntu-latest
